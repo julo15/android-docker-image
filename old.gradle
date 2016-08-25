@@ -1,0 +1,38 @@
+task uitestOneTimeSetup(type: Exec) {
+    workingDir '.'
+    commandLine 'bundle', 'install'
+    standardOutput = new ByteArrayOutputStream()
+}
+
+uitestOneTimeSetup.doLast {
+    println 'DONE EXECUTING setupAppium'
+    println standardOutput
+}
+
+task startAppium(type: Exec) {
+    commandLine 'appium'
+}
+
+android.applicationVariants.all { variant ->
+    variant.outputs.each { output ->
+        def pascalCasedVariantName = output.name.substring(0, 1).toUpperCase() + output.name.substring(1);
+        def reinstallTask = task "reinstall${pascalCasedVariantName}" << {
+            println "Done reinstalling ${output.name}"
+        }
+
+        def uninstallTaskPath = ":app:uninstall${pascalCasedVariantName}"
+        def installTaskPath = ":app:install${pascalCasedVariantName}"
+
+        reinstallTask.dependsOn uninstallTaskPath
+        reinstallTask.dependsOn installTaskPath
+        tasks.getByPath(installTaskPath).mustRunAfter tasks.getByPath(uninstallTaskPath)
+
+        def uitestTask = task "uitest${pascalCasedVariantName}"(type: Exec, dependsOn: reinstallTask) {
+            group = 'Verification'
+            description = "Run UI automation for the ${output.name} build."
+            workingDir '.'
+            commandLine 'bundle', 'exec', 'ruby', 'login_logout_test.rb'
+            standardOutput = new ByteArrayOutputStream()
+        }
+    }
+}
