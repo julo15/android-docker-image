@@ -18,7 +18,7 @@ class FirstTest < Test::Unit::TestCase
     caps   = { caps:       { platformName: 'Android',
                              deviceName: 'Nexus 7',
                              appActivity: '.MainActivity',
-                             appPackage: 'com.example.julianlo.placedsdkplayground'
+                             appPackage: 'com.example.julianlo.appiumplayground'
                             },
                appium_lib: { sauce_username: nil,
                              sauce_access_key: nil } }
@@ -34,26 +34,7 @@ class FirstTest < Test::Unit::TestCase
   def test_about_phone_version
 
     # Intro activity
-    xpath('//android.widget.TextView[@text="Skip"]').click
-    sleep(1) # seems to be necessary
-    xpath('//android.widget.TextView[@text="Accept"]').click
-    button('Allow').click
+    scroll_to('Button 1').click
 
-    # Opening activity
-    xpath('//android.widget.Button[@text="Sign In With Email"]').click
-
-    # Login activity
-    emailEdit = xpath('//android.widget.EditText[1]')
-    emailEdit.send_keys('constancechong.8@gmail.com')
-    passwordEdit = xpath('//android.widget.EditText[@password="true"]')
-    passwordEdit.send_keys('test1234')
-    button('Login').click
-    sleep(1)
-
-    # Mileage plan activity
-    xpath('//android.widget.ImageView[@content-desc="More options"]').click
-    xpath('//android.widget.TextView[@text="Logout"]').click
-    button('OK').click
-    sleep(2)
   end
 end
