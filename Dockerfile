@@ -1,3 +1,3 @@
-FROM bitriseio/docker-bitrise-base-alpha:latest
+FROM bitriseio/docker-android:latest
 
 ENV JULIAN_HELLO Hello
