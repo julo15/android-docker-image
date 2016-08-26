@@ -35,7 +35,7 @@ class FirstTest < Test::Unit::TestCase
     screenshot 'myscreenshot.jpg'
 
     # Intro activity
-    xpath('//android.widget.Button[@resource-id="com.example.julianlo.appiumplayground:id/button1"]').click
+    scroll_to('Button 1').click
 
   end
 end
