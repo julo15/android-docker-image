@@ -33,6 +33,8 @@ class FirstTest < Test::Unit::TestCase
 
   def test_about_phone_version
 
+    screenshot 'myscreenshot.jpg'
+
     # Intro activity
     scroll_to('Button 1').click
 
