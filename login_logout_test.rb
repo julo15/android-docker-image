@@ -17,8 +17,7 @@ class FirstTest < Test::Unit::TestCase
     puts 'postparam'
     caps   = { caps:       { platformName: 'Android',
                              deviceName: 'Nexus 7',
-                             appActivity: '.MainActivity',
-                             appPackage: 'com.example.julianlo.appiumplayground'
+                             app: './app-debug.apk'
                             },
                appium_lib: { sauce_username: nil,
                              sauce_access_key: nil } }
