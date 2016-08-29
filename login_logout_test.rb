@@ -32,10 +32,14 @@ class FirstTest < Test::Unit::TestCase
 
   def test_about_phone_version
 
-    screenshot 'myscreenshot.jpg'
+    screenshot 'before.jpg'
 
     # Intro activity
+    scroll_to('GOT IT').click
+    screenshot 'after_got_it.jpg'
+
     scroll_to('Button 1').click
+    screenshot 'end.jpg'
 
   end
 end
