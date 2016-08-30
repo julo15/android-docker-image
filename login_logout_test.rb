@@ -35,7 +35,6 @@ class FirstTest < Test::Unit::TestCase
     screenshot 'before.jpg'
 
     # Intro activity
-    scroll_to('GOT IT').click
     screenshot 'after_got_it.jpg'
 
     scroll_to('Button 1').click
