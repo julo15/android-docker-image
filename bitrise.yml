@@ -1,0 +1,79 @@
+---
+format_version: 1.2.0
+default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
+workflows:
+  checker:
+    steps:
+    - script@1.1.2:
+        title: Checker
+        inputs:
+        - content: |-
+            echo Checking linux
+            uname -a
+            echo
+            echo Checking node
+            node --version
+            echo
+            echo Checking PATH
+            echo $PATH
+            echo
+            echo Checking ANDROID_HOME
+            echo $ANDROID_HOME
+            echo
+            echo Checking JAVA_HOME
+            echo $JAVA_HOME
+            echo
+            echo Checking java
+            java -version
+            echo
+            echo Checking java location
+            which java
+            echo
+            echo Checking jvm location
+            ls -la /usr/lib/jvm
+            echo
+            echo Checking adb
+            which adb
+            echo
+            echo Checking android
+            android list avd
+            echo
+            echo Checking appium
+            appium --version
+            echo
+            echo Checking appium-doctor
+            appium-doctor --android
+            echo
+            echo Checking gem
+            gem --version
+            echo
+            echo Checking bundle
+            bundle --version
+  setup:
+    after_run:
+    - checker
+    steps:
+    - script:
+        title: Generate disable_clings.rb
+        inputs:
+        - content: |-
+            #!/bin/bash
+            cat <<EOF > disable_clings.rb
+            begin
+                success = system('adb shell setprop ro.test_harness true > /dev/null 2>&1')
+                sleep 0.2
+            end until success
+            EOF
+    - script:
+        title: Start appium
+        inputs:
+        - content: |-
+            echo Docker emu = $DOCKER_EMULATOR_NAME
+            appium &
+    - script:
+        title: Start disable_clings daemon
+        inputs:
+        - content: ruby disable_clings.rb &
+    - start-android-emulator@1.1.0:
+        inputs:
+        - emulator_name: $DOCKER_EMULATOR_NAME
