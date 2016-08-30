@@ -65,12 +65,6 @@ workflows:
             end until success
             EOF
     - script:
-        title: Start appium
-        inputs:
-        - content: |-
-            echo Docker emu = $DOCKER_EMULATOR_NAME
-            appium &
-    - script:
         title: Start disable_clings daemon
         inputs:
         - content: ruby disable_clings.rb &
