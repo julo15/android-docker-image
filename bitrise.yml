@@ -71,3 +71,14 @@ workflows:
     - start-android-emulator@1.1.0:
         inputs:
         - emulator_name: $DOCKER_EMULATOR_NAME
+    - ruby-script:
+        title: Shutdown emulator to save snapshot
+        inputs:
+        - ruby_content: |-
+            pid = `pgrep emulator64-arm`
+            abort("Emulator not running") if pid.empty?
+            abort("Failed to kill process '#{pid}'") unless system("kill #{pid}")
+            begin
+                success = system("kill -0 #{pid}")
+                sleep 0.2
+            end while success
