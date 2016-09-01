@@ -73,6 +73,7 @@ workflows:
         - emulator_name: $DOCKER_EMULATOR_NAME
     - script:
         title: Sleep for emulator
+        inputs:
         - content: sleep 120
     - ruby-script:
         title: Shutdown emulator to save snapshot
