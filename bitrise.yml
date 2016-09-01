@@ -71,6 +71,9 @@ workflows:
     - start-android-emulator@1.1.0:
         inputs:
         - emulator_name: $DOCKER_EMULATOR_NAME
+    - script:
+        title: Sleep for emulator
+        - content: sleep 120
     - ruby-script:
         title: Shutdown emulator to save snapshot
         inputs:
